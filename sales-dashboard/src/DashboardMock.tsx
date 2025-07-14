@@ -8,6 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom" // ←★追加
 
 const kpiData = [
   { title: "売上", value: "¥12,340,000", delta: "+8%" },
@@ -36,6 +37,7 @@ const storeToday = [
 export default function DashboardMock() {
   const [tab, setTab] = useState<'today' | 'store' | 'person' | 'compare' | 'kpi'>('today')
   const now = new Date().toLocaleTimeString()
+  const navigate = useNavigate() // ←★遷移用Hook
 
   const TabButton = ({ id, label }: { id: typeof tab; label: string }) => (
     <button
@@ -122,7 +124,7 @@ export default function DashboardMock() {
         </section>
       )}
 
-      {/* ==== まだ未対応のタブ ==== */}
+      {/* ==== プレースホルダー ==== */}
       {tab === 'person' && (
         <div className="text-gray-500">※個人別集計は準備中です。</div>
       )}
@@ -132,6 +134,16 @@ export default function DashboardMock() {
       {tab === 'kpi' && (
         <div className="text-gray-500">※前月 KPI ダッシュボードは準備中です。</div>
       )}
+
+      {/* ==== トグルボタン（ページ切り替え） ==== */}
+      <div className="pt-6 text-center">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition"
+        >
+          タイル表示に切り替え
+        </button>
+      </div>
     </div>
   )
 }
